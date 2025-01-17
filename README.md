@@ -1,6 +1,6 @@
 # Classification-de-chiffres-MNIST-avec-TensorFlow-MNIST-Number-classification-with-TensorFlow
 
-##Description
+## Description
 
 Ce projet utilise TensorFlow pour entraîner un modèle qui peut classer des chiffres manuscrits de l'ensemble de donnés MNIST.
 Le modèle est construit en utilisant un réseau de neurones dense.
