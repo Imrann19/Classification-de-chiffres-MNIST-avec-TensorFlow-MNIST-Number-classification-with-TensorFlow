@@ -1,15 +1,40 @@
 import tensorflow as tf
+import numpy as np
 import random
 
-model = tf.keras.Sequential([tf.keras.layers.Dense(units=1, input_shape=[1])])
-model.compile(optimizer = 'sgd', loss = 'mean_squared_error')
+#Chargement des donnés MNIST / Loading MNIST dataset
+mnist = tf.keras.datasets.mnist
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
 
-x_train = [1, 2, 3, 4, 5]
-y_train = [2, 4, 6, 8, 10]
+X_train, X_test = X_train / 255.0, X_test / 255.0 #Normalisation des donnés / Normalizing the data 
 
-model.fit(x_train, y_train, epochs=10, verbose=0)
+#Construction du modèle / Building the model
+model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=(28, 28)),  
+    tf.keras.layers.Dense(128, activation='relu'), 
+    tf.keras.layers.Dense(10, activation='softmax')
+])
 
-X = random.randint(1, 1000)
+#Compilation du modèle / Compiling the model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
 
-print(model.predict([X])) 
-print(f"\nLe nombre réel est {X} et le nombre à prédire était : {X*2}" )
+print("Entraînement du modèle...")
+model.fit(X_train, y_train, epochs=5)#Entrainement du modèle / Training of the model
+print("Entraînement terminé.")
+
+#Evaluation du modèle / Evaluating the model
+test_FP, test_P = model.evaluate(X_test, y_test)
+print(f"\nPrécision sur les données de test : {test_P * 100:.2f}%")
+
+sample_index = random.randint(0, 9)
+sample = X_test[sample_index].reshape(1, 28, 28)  
+
+predictions = model.predict(sample)
+
+predicted_class = np.argmax(predictions)  
+
+#Affichage du résultat / Displaying results
+print(f"\nLe modèle prédit que ce chiffre est : {predicted_class}")
+print(f"Le chiffre réel est : {y_test[sample_index]}")
