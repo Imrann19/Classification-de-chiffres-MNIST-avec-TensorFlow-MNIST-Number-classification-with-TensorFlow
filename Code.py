@@ -22,11 +22,11 @@ model.compile(optimizer='adam',
 
 print("Entraînement du modèle...")
 model.fit(X_train, y_train, epochs=5)#Entrainement du modele / Training of the model
-print("Entraînement terminé.")
+print("Entrainement termine.")
 
 #Evaluation du modele / Evaluating the model
 test_FP, test_P = model.evaluate(X_test, y_test)
-print(f"\nPrécision sur les données de test : {test_P * 100:.2f}%")
+print(f"\nPrecision sur les donnees de test : {test_P * 100:.2f}%")
 
 sample_index = random.randint(0, 9)
 sample = X_test[sample_index].reshape(1, 28, 28)  
@@ -36,5 +36,5 @@ predictions = model.predict(sample)
 predicted_class = np.argmax(predictions)  
 
 #Affichage du resultat / Displaying results
-print(f"\nLe modèle prédit que ce chiffre est : {predicted_class}")
-print(f"Le chiffre réel est : {y_test[sample_index]}")
+print(f"\nLe modele prédit que ce chiffre est : {predicted_class}")
+print(f"Le chiffre reel est : {y_test[sample_index]}")
